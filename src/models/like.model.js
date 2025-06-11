@@ -1,5 +1,5 @@
 import mongoose, { Schema } from "mongoose";
-
+import mongooseAggregatePaginate from "mongoose-aggregate-paginate-v2";
 const likeSchema = new Schema(
   {
     video: {
@@ -21,5 +21,6 @@ const likeSchema = new Schema(
   },
   { timestamps: true }
 );
-
+likeSchema.plugin(mongooseAggregatePaginate);
+// This code defines a Mongoose schema for a like model in a video streaming application.
 export const Like = mongoose.model("Like", likeSchema);
