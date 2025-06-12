@@ -22,3 +22,5 @@ const uploadOnCloundinary = async (localFilePath) => {
     fs.unlinkSync(localFilePath); // Delete the local file if upload fails
   }
 };
+
+export { uploadOnCloundinary };
