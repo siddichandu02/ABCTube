@@ -25,8 +25,14 @@ const errorHandler = (err, req, res, next) => {
       errors: err.errors || [],
     });
   }
-
-  console.error(err); // Log the error for debugging
+  if (err.statusCode === undefined) {
+    return res.status(err.statusCode || 500).json({
+      success: false,
+      message: err.message,
+      errors: err.errors || [],
+    });
+  }
+  console.error("errorrrrrr..." + err.status); // Log the error for debugging
   return res.status(err.statusCode).json(response);
 };
 
