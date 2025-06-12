@@ -166,11 +166,25 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
 });
 
 const logoutUser = asyncHandler(async (req, res) => {
-  //   await User.findOneAndUpdate(
-  //     { refreshToken: req.cookies.refreshToken },
-  //     { refreshToken: null },
-  //     { new: true }
-  //   );
+  await User.findOneAndUpdate(
+    req.user._id,
+    {
+      $set: {
+        refreshToken: undefined,
+      },
+    },
+    { new: true }
+  );
+  const options = {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production", // Set to true in production
+  };
+
+  return res
+    .status(200)
+    .clearCookie("acessToken", options)
+    .clearCookie("refreshToken", options)
+    .json(new ApiResponse(200, "Logged out successfully"));
 });
 
 export { registerUser, loginUser, refreshAccessToken, logoutUser };
